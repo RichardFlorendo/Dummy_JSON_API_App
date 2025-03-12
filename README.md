@@ -1,4 +1,5 @@
 # Dummy JSON API App
+
 A Kotlin-based Android application developed as part of a technical assessment during a job application process. This app fetches and displays products from the DummyJSON API, implementing pagination, caching, and detailed product views using Jetpack Compose, Room, and Retrofit.
 
 # Features
@@ -14,11 +15,16 @@ A Kotlin-based Android application developed as part of a technical assessment d
 
 # Tech Stack
 Kotlin – Primary language for development.
+
 Jetpack Compose – Modern UI toolkit for building native Android UIs.
+
 Retrofit – For making network requests to the DummyJSON API.
+
 Room Database – For local caching of fetched products.
+
 Coil – For loading and displaying images.
 
 # Author
+
 Richard Edmund Florendo
 
