@@ -18,19 +18,17 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.serino_dev_assessment.model.Product
 import com.example.serino_dev_assessment.viewmodel.MainViewModel
@@ -51,12 +49,14 @@ fun ProductListScreen(
                 CircularProgressIndicator(modifier.align(Alignment.Center))
             }
             viewState.error != null ->{ //Not Loading with Error
-                Text(text = "ERROR OCCURRED")
+                Text(text = "ERROR OCCURRED", modifier.align(Alignment.Center))
             }
             else->{
+
                 //Display Categories when not loading and no error
                 ProductScreen(
                     products = viewState.list,
+                    viewState,
                     navigateToDetail,
                     fetchNextPage,
                     fetchPreviousPage,
@@ -70,13 +70,25 @@ fun ProductListScreen(
 @Composable
 fun ProductScreen(
     products: List<Product>,
+    viewState: MainViewModel.ProductState,
     navigateToDetail: (Product) -> Unit,
     fetchNextPage: () -> Unit,
     fetchPreviousPage: () -> Unit,
-    currentPage: Int) // Pass current page directly
+    currentPage: Int)
 {
 
     Column {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp),
+            color = Color.Black,
+            style = TextStyle(fontWeight = FontWeight.Bold),
+            text = "Product List",
+            textAlign = TextAlign.Center,
+            fontSize = 50.sp
+        )
+
         LazyVerticalGrid(columns = GridCells.Fixed(1), modifier = Modifier.weight(1f)) {
             items(products) { product ->
                 ProductItem(product, navigateToDetail = navigateToDetail)
@@ -84,18 +96,21 @@ fun ProductScreen(
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
                 onClick = { fetchPreviousPage() },
-                enabled = currentPage > 1
+                enabled = currentPage > 1 && !viewState.isFromCache
             ) {
                 Text("Previous")
             }
 
             Button(
-                onClick = { fetchNextPage() }
+                onClick = { fetchNextPage() },
+                enabled = !viewState.isFromCache
             ) {
                 Text("Next")
             }
@@ -107,23 +122,45 @@ fun ProductScreen(
 @Composable
 fun ProductItem(product: Product,
                 navigateToDetail: (Product) -> Unit){
-    Column(modifier = Modifier
-        .padding(8.dp)
-        .fillMaxSize()
-        .clickable { navigateToDetail(product) }, //allows the item to be clickable
-        horizontalAlignment = Alignment.CenterHorizontally)
-    {
-        Image(painter = rememberAsyncImagePainter(model = product.thumbnail),
-            //loads image with one line of code, from io implementation in build.gradle
-            contentDescription = null,
+    Box(modifier =
+        Modifier.fillMaxWidth()){
+        Row(
             modifier = Modifier
+                .padding(8.dp)
                 .fillMaxSize()
-                .aspectRatio(1f))
-
-        Text(text = product.title,
-            color = Color.Black,
-            style = TextStyle(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(top = 4.dp)
+                .clickable { navigateToDetail(product) }, //allows the item to be clickable
+            verticalAlignment = Alignment.CenterVertically
         )
+        {
+            Image(
+                painter = rememberAsyncImagePainter(model = product.thumbnail),
+                //loads image with one line of code, from io implementation in build.gradle
+                contentDescription = product.description,
+                contentScale = ContentScale.FillBounds
+            )
+
+            Column {
+                Text(
+                    text = product.title,
+                    color = Color.Black,
+                    style = TextStyle(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+
+                Text(
+                    text = product.description,
+                    color = Color.Black,
+                    style = TextStyle(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+
+            Text(
+                text = product.price.toString(),
+                color = Color.Black,
+                style = TextStyle(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
     }
 }

@@ -7,15 +7,12 @@ import androidx.room.Query
 
 @Dao
 interface ProductDao {
-    @Query("DELETE FROM products")
-    suspend fun clearProducts() // Clears all products from the database
-
-    @Query("SELECT * FROM products ORDER BY id ASC LIMIT :limit OFFSET :offset")
-    suspend fun getProductsByPage(limit: Int, offset: Int): List<ProductEntity>
+    @Query("SELECT * FROM products")
+    suspend fun getAllProducts(): List<ProductEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(products: List<ProductEntity>) //Inserts all data
+    suspend fun insertProducts(products: List<ProductEntity>)
 
-    @Query("SELECT COUNT(*) FROM products")
-    suspend fun getProductCount(): Int
+    @Query("DELETE FROM products")
+    suspend fun clearProducts()
 }
