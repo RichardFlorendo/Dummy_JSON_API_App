@@ -1,6 +1,6 @@
 import java.util.Properties
 
-// Read from local.properties
+//Read from local.properties
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
@@ -26,7 +26,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        // Add PRODUCTS_BASE_URL from local.properties to BuildConfig
+        //Add PRODUCTS_BASE_URL from local.properties to BuildConfig
         val productApiBaseUrl: String = localProperties["PRODUCT_API_BASE_URL"] as String
         buildConfigField("String", "PRODUCT_API_BASE_URL", "\"$productApiBaseUrl\"")
 

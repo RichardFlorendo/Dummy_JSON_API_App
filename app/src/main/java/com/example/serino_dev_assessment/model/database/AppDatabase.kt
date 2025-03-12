@@ -19,7 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "product_db"
-                ).fallbackToDestructiveMigration() // Ensures database resets if schema changes
+                ).fallbackToDestructiveMigration() //Ensures database resets if schema changes
                 .build()
                 instance = newInstance
                 newInstance

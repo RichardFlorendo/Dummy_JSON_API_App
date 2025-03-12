@@ -1,6 +1,5 @@
 package com.example.serino_dev_assessment.view.activities
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,12 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -36,8 +32,8 @@ import com.example.serino_dev_assessment.viewmodel.MainViewModel
 @Composable
 fun ProductListScreen(
     modifier: Modifier,
-    viewState: MainViewModel.ProductState,  // Explicitly pass state
-    fetchProducts: (Int) -> Unit,  // Pass function references
+    viewState: MainViewModel.ProductState,  //Explicitly pass state
+    fetchProducts: (Int) -> Unit,  //Pass function references
     navigateToDetail: (Product) -> Unit,
     fetchNextPage: () -> Unit,
     fetchPreviousPage: () -> Unit,
@@ -76,7 +72,6 @@ fun ProductScreen(
     fetchPreviousPage: () -> Unit,
     currentPage: Int)
 {
-
     Column {
         Text(
             modifier = Modifier
@@ -109,7 +104,8 @@ fun ProductScreen(
             }
 
             Button(
-                onClick = { fetchNextPage() },
+                onClick = {
+                    fetchNextPage() },
                 enabled = !viewState.isFromCache
             ) {
                 Text("Next")
@@ -122,44 +118,56 @@ fun ProductScreen(
 @Composable
 fun ProductItem(product: Product,
                 navigateToDetail: (Product) -> Unit){
-    Box(modifier =
-        Modifier.fillMaxWidth()){
-        Row(
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { navigateToDetail(product) }, //Allows clicking on the item
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(model = product.thumbnail),
+            contentDescription = product.description,
             modifier = Modifier
-                .padding(8.dp)
-                .fillMaxSize()
-                .clickable { navigateToDetail(product) }, //allows the item to be clickable
-            verticalAlignment = Alignment.CenterVertically
+                .weight(1f)  //Adjusts image size
+                .aspectRatio(1f) //Keeps it square
         )
-        {
-            Image(
-                painter = rememberAsyncImagePainter(model = product.thumbnail),
-                //loads image with one line of code, from io implementation in build.gradle
-                contentDescription = product.description,
-                contentScale = ContentScale.FillBounds
+
+        Column(modifier = Modifier.weight(2f).padding(start = 8.dp)) {
+            Text(
+                text = product.title,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
             )
 
-            Column {
-                Text(
-                    text = product.title,
-                    color = Color.Black,
-                    style = TextStyle(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 4.dp)
-                )
+            //Category & Brand
+            Text(
+                text = "${product.category} - ${product.brand}",
+                fontSize = 14.sp,
+                color = Color.Gray
+            )
 
-                Text(
-                    text = product.description,
-                    color = Color.Black,
-                    style = TextStyle(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
+            //Short Description (Limit to 50 chars)
+            Text(
+                text = if (product.description.length > 50) product.description.take(50) + "..." else product.description,
+                fontSize = 12.sp
+            )
+        }
+
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.End
+        ) {
+            //Price with Discount
+            Text(
+                text = "$${product.price}",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
 
             Text(
-                text = product.price.toString(),
-                color = Color.Black,
-                style = TextStyle(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 4.dp)
+                text = "⭐${product.rating}",
+                fontSize = 14.sp
             )
         }
     }

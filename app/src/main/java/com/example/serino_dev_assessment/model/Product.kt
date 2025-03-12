@@ -10,37 +10,34 @@ data class Product(
     val title: String,
     val description: String,
     val category: String,
+    val brand: String?,
     val price: Double,
-    val thumbnail: String
+    val discountPercentage: Double,
+    val rating: Double,
+    val stock: Int,
+    val thumbnail: String,
+    val images: List<String>
 ) : Parcelable
 
 data class ProductResponse(
-    val products: List<Product>, // Corrected field name
-    val total: Int, // Matches API response
-    val skip: Int, // Matches API response
-    val limit: Int // Matches API response
+    val products: List<Product>,
+    val total: Int,
+    val skip: Int,
+    val limit: Int
 )
 
-// Converts Product to Room Entity
-fun Product.toEntity(): ProductEntity {
-    return ProductEntity(
-        id = this.id,
-        title = this.title,
-        description = this.description,
-        category = this.category,
-        price = this.price,
-        thumbnail = this.thumbnail
-    )
-}
-
-// Converts Room Entity to Product
 fun ProductEntity.toDomain(): Product {
     return Product(
         id = this.id,
         title = this.title,
         description = this.description,
         category = this.category,
+        brand = this.brand?: "Unknown",
         price = this.price,
-        thumbnail = this.thumbnail
+        discountPercentage = this.discountPercentage,
+        rating = this.rating,
+        stock = this.stock,
+        thumbnail = this.thumbnail,
+        images = if (this.images.isNotEmpty()) this.images.split("|") else emptyList()
     )
 }

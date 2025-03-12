@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -15,26 +14,23 @@ import com.example.serino_dev_assessment.model.api.productService
 import com.example.serino_dev_assessment.model.database.AppDatabase
 import com.example.serino_dev_assessment.model.database.ProductEntity
 import com.example.serino_dev_assessment.model.toDomain
-import com.example.serino_dev_assessment.model.toEntity
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val productDao = AppDatabase.getDatabase(application).productDao()
 
-    private val _productState = mutableStateOf(ProductState()) // Holds UI state
-    val productState: State<ProductState> = _productState // Exposes state to UI
+    private val _productState = mutableStateOf(ProductState()) //Holds UI state
+    val productState: State<ProductState> = _productState //Exposes state to UI
 
-    var currentPage = 1 // Tracks which page is loaded
+    var currentPage = 1 //Tracks which page is loaded
 
     init {
         viewModelScope.launch {
-            if (isOnline()) { // ✅ Check internet connection
-                Log.d("Init", "Device is online. Fetching fresh data from API.")
-                fetchProducts(currentPage) // Load fresh data from API
+            if (isOnline()) { //Check internet connection
+                fetchProducts(currentPage) //Load fresh data from API
             } else {
                 val cachedProducts = productDao.getAllProducts()
                 if (cachedProducts.isNotEmpty()) {
-                    Log.d("Init Cache", "Loading ${cachedProducts.size} cached products on startup (Offline Mode)")
                     _productState.value = _productState.value.copy(
                         list = cachedProducts.map { it.toDomain() },
                         loading = false
@@ -56,23 +52,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             if (isOnline()) {
                 try {
-                    // Fetch from API
+                    //Fetch from API
                     val response = productService.getProducts(limit, offset)
+
                     val products = response.products.map {
-                        ProductEntity(it.id, it.title, it.description, it.category, it.price, it.thumbnail)
+                        ProductEntity(
+                            it.id,
+                            it.title,
+                            it.description,
+                            it.category,
+                            it.brand,
+                            it.price,
+                            it.discountPercentage,
+                            it.rating,
+                            it.stock,
+                            it.thumbnail,
+                            it.images.toString())
                     }
 
-                    productDao.insertProducts(products) // ✅ Cache new data
+                    productDao.insertProducts(products) //Cache new data
                     _productState.value = ProductState(
                         list = response.products,
                         loading = false,
                         error = null,
-                        isFromCache = false,  // ✅ Data is fresh, not from cache
-                        hasNextPage = response.products.isNotEmpty(), // ✅ Enable "Next" button only if products exist
-                        hasPreviousPage = page > 1 // ✅ Enable "Previous" button only if page > 1
+                        isFromCache = false,  //Data is fresh, not from cache
+                        hasNextPage = response.products.isNotEmpty(), //Enable "Next" button only if products exist
+                        hasPreviousPage = page > 1 //Enable "Previous" button only if page > 1
                     )
                 } catch (e: Exception) {
-                    _productState.value = _productState.value.copy(loading = false, error = e.message)
+                    _productState.value = _productState.value.copy(
+                        loading = false,
+                        error = e.message)
                 }
             } else {
                 Toast.makeText(getApplication(), "No internet connection. Loading cached data.", Toast.LENGTH_SHORT).show()
@@ -82,9 +92,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     list = cachedProducts.map { it.toDomain() },
                     loading = false,
                     error = null,
-                    isFromCache = true,  // ✅ Mark data as from cache
-                    hasNextPage = false,  // ✅ Hide next button when offline
-                    hasPreviousPage = false // ✅ Hide previous button when offline
+                    isFromCache = true,
+                    hasNextPage = false,
+                    hasPreviousPage = false
                 )
             }
         }
@@ -92,14 +102,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun nextPage() {
         currentPage += 1
-        Log.d("Pagination", "Next Page: $currentPage")
         fetchProducts(currentPage)
+
     }
 
     fun previousPage() {
         if (currentPage > 1) {
             currentPage -= 1
-            Log.d("Pagination", "Previous Page: $currentPage")
             fetchProducts(currentPage)
         }
     }

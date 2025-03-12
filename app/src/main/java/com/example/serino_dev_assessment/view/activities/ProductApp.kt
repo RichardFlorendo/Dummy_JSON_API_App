@@ -31,8 +31,8 @@ fun ProductApp(navController: NavHostController){
                     navController.navigate(Screen.DetailScreen.route) //navigates to the details screen
                 },
                 modifier = Modifier,
-                fetchNextPage = { productViewModel.nextPage() }, // Corrected
-                fetchPreviousPage = { productViewModel.previousPage() }, // Corrected
+                fetchNextPage = { productViewModel.nextPage() },
+                fetchPreviousPage = { productViewModel.previousPage() },
                 currentPage = productViewModel.currentPage,
             )
         }
@@ -41,7 +41,7 @@ fun ProductApp(navController: NavHostController){
             val product = navController.previousBackStackEntry //retrieves data from the previous backstack
                 ?.savedStateHandle //stores data across screens
                 ?.get<Product>("prod") //retrieve data with type "Product" with key "prod"
-                ?: Product(0, "", "", "", 0.0, "") //if "prod" is empty, create an empty Product
+                ?: Product(0, "", "", "", "", 0.0, 0.0, 0.0, 0, "", emptyList()) //if "prod" is empty, create an empty Product
                 ProductDetailScreen(product = product)
         }
     }

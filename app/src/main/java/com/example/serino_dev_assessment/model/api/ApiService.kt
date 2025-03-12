@@ -16,8 +16,8 @@ val productService: ApiService = retrofit.create(ApiService::class.java)
 interface ApiService{
     @GET("products") //appended to the end of baseURL
     suspend fun getProducts(
-        @Query("limit") limit: Int = 10, // Default to 10 items per request
-        @Query("skip") skip: Int = 0    // Default to skipping 0 items
+        @Query("limit") limit: Int = 10, //Default to 10 items per request
+        @Query("skip") skip: Int = 0    //Default to skipping 0 items
     ):ProductResponse //Adds to the Product.kt list
 
 }

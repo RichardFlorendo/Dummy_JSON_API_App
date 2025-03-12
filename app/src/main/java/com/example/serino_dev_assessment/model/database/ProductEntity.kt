@@ -9,6 +9,11 @@ data class ProductEntity(
     val title: String,
     val description: String,
     val category: String,
+    val brand: String?,
     val price: Double,
-    val thumbnail: String
+    val discountPercentage: Double,
+    val rating: Double,
+    val stock: Int,
+    val thumbnail: String,
+    val images: String
 )
