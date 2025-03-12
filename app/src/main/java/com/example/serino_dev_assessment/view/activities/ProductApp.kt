@@ -2,6 +2,7 @@ package com.example.serino_dev_assessment.view.activities
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,13 +13,15 @@ import com.example.serino_dev_assessment.viewmodel.MainViewModel
 
 @Composable
 fun ProductApp(navController: NavHostController){
-    val recipeViewModel: MainViewModel = viewModel()
-    val viewState by recipeViewModel.productState
+    val productViewModel: MainViewModel = viewModel()
+    val viewState by productViewModel.productState
 
     NavHost(navController = navController,
         startDestination = Screen.ProductScreen.route){
         composable(route = Screen.ProductScreen.route){
-            ProductListScreen(viewState = viewState,
+            ProductListScreen(
+                viewState = viewState,
+                fetchProducts = { productViewModel.fetchProducts(productViewModel.currentPage) },
                 navigateToDetail = {
                     //This part is responsible for passing data from the current screen to the details screen
                     //It utilizes he savedStateHandle, which is a component of the Compose navigation framework
@@ -26,7 +29,12 @@ fun ProductApp(navController: NavHostController){
                         ?.savedStateHandle
                         ?.set("prod", it) //Stores the product as "prod"
                     navController.navigate(Screen.DetailScreen.route) //navigates to the details screen
-                })
+                },
+                modifier = Modifier,
+                fetchNextPage = { productViewModel.nextPage() }, // Corrected
+                fetchPreviousPage = { productViewModel.previousPage() }, // Corrected
+                currentPage = productViewModel.currentPage,
+            )
         }
 
         composable(route = Screen.DetailScreen.route){

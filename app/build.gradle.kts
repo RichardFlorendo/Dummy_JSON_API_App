@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize") //Added to Parcelize, by serializing and de-serializing
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -55,6 +56,11 @@ android {
 }
 
 dependencies {
+
+    //Room Database
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     //Navigation
     implementation(libs.androidx.navigation.compose)

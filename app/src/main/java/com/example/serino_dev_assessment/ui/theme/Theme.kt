@@ -51,7 +51,7 @@ fun SerinoDevAssessmentTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = lightColorScheme(), //Forced Light Color Scheme
         typography = Typography,
         content = content
     )
