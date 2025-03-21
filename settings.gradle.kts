@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Serino-Dev-Assessment"
+rootProject.name = "DummyJSON_App"
 include(":app")
  

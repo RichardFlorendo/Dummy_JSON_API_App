@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment.viewmodel
+package com.example.dummyjson_app.viewmodel
 
 import android.app.Application
 import android.content.Context
@@ -9,11 +9,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.serino_dev_assessment.model.Product
-import com.example.serino_dev_assessment.model.api.productService
-import com.example.serino_dev_assessment.model.database.AppDatabase
-import com.example.serino_dev_assessment.model.database.ProductEntity
-import com.example.serino_dev_assessment.model.toDomain
+import com.example.dummyjson_app.model.Product
+import com.example.dummyjson_app.model.api.productService
+import com.example.dummyjson_app.model.database.AppDatabase
+import com.example.dummyjson_app.model.database.ProductEntity
+import com.example.dummyjson_app.model.toDomain
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {

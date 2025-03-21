@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment.view.activities
+package com.example.dummyjson_app.view.activities
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.serino_dev_assessment.model.Product
+import com.example.dummyjson_app.model.Product
 
 @Composable
 fun ProductDetailScreen(product: Product){

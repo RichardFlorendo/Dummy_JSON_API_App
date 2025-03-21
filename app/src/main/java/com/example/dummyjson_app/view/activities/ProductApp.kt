@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment.view.activities
+package com.example.dummyjson_app.view.activities
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -7,9 +7,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.serino_dev_assessment.model.Product
-import com.example.serino_dev_assessment.view.Screen
-import com.example.serino_dev_assessment.viewmodel.MainViewModel
+import com.example.dummyjson_app.model.Product
+import com.example.dummyjson_app.view.Screen
+import com.example.dummyjson_app.viewmodel.MainViewModel
 
 @Composable
 fun ProductApp(navController: NavHostController){

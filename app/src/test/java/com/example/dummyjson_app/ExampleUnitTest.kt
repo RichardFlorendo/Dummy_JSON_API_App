@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment
+package com.example.dummyjson_app
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

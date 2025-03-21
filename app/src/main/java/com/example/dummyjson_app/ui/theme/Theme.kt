@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment.ui.theme
+package com.example.dummyjson_app.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -33,7 +33,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun SerinoDevAssessmentTheme(
+fun DummyJSONAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

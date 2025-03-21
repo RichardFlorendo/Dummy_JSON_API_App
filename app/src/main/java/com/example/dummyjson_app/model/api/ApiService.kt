@@ -1,7 +1,7 @@
-package com.example.serino_dev_assessment.model.api
+package com.example.dummyjson_app.model.api
 
-import com.example.serino_dev_assessment.BuildConfig
-import com.example.serino_dev_assessment.model.ProductResponse
+import com.example.dummyjson_app.BuildConfig
+import com.example.dummyjson_app.model.ProductResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment.ui.theme
+package com.example.dummyjson_app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

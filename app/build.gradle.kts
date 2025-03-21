@@ -16,11 +16,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.serino_dev_assessment"
+    namespace = "com.example.dummyjson_app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.serino_dev_assessment"
+        applicationId = "com.example.dummyjson_app"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

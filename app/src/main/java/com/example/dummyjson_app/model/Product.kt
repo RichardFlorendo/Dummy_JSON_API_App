@@ -1,7 +1,7 @@
-package com.example.serino_dev_assessment.model
+package com.example.dummyjson_app.model
 
 import android.os.Parcelable
-import com.example.serino_dev_assessment.model.database.ProductEntity
+import com.example.dummyjson_app.model.database.ProductEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

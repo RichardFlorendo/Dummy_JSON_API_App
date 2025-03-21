@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment.model.database
+package com.example.dummyjson_app.model.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment.model.database
+package com.example.dummyjson_app.model.database
 
 import android.content.Context
 import androidx.room.Database

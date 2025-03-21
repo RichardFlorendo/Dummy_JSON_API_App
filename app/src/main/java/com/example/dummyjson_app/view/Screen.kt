@@ -1,4 +1,4 @@
-package com.example.serino_dev_assessment.view
+package com.example.dummyjson_app.view
 
 sealed class Screen(val route: String){
     object ProductScreen: Screen(route = "productscreen")
